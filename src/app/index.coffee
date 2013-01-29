@@ -15,9 +15,17 @@ browser = require './browser'
 _ = require('underscore')
 
 setupListReferences = (model) ->
+  user = model.at('_user')
   # Setup Task Lists
   taskTypes = ['habit', 'daily', 'todo', 'reward']
   _.each taskTypes, (type) ->  model.refList "_#{type}List", "_user.tasks", "_user.#{type}Ids"
+  model.ref '_todosRemaining', user.filter('tasks')
+    .where('type').equals('todo')
+    .where('completed').equals(false)
+  model.ref '_todosCompleted', user.filter('tasks')
+    .where('type').equals('todo')
+    .where('completed').equals(true)
+
 
 # ========== ROUTES ==========
 

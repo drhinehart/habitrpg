@@ -24,6 +24,13 @@ casper.then ->
   @test.assert user.before.stats.exp > user.after.stats.exp, '-todo -exp'
   @test.assert user.before.stats.money > user.after.stats.money, '-todo -money'
 
+# can delete them (https://github.com/lefnire/habitrpg/issues/250)
+casper.then ->
+  model = helper.userBeforeAfter (-> casper.click '.todos a[data-original-title="delete"]')
+  @test.assertEquals model.before.user.tasks.length - 1, model.after.user.tasks.length, 'todo deleted from user.tasks'
+  @test.assertEquals model.before.user.todoIds.length -1, model.before.user.todoIds.length, 'todo deleted from user.todoIds'
+  @test.assertEquals model.before._todoList.length -1, model.before._todoList.length, 'todo deleted from _todoList'
+
 # ---------- Cron ------------
 casper.then ->
   helper.reset()

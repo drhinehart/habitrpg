@@ -35,6 +35,13 @@ module.exports = ->
       user.after = @getUser()
       user
 
+    modelBeforeAfter: (callback) ->
+      model = {}
+      model.before = casper.evaluate -> window.DERBY.app.model.get()
+      callback()
+      model.after = casper.evaluate -> window.DERBY.app.model.get()
+      model
+
     runCron: ->
       casper.evaluate -> window.DERBY.model.set('_user.lastCron', new Date('01/25/2013'))
       casper.reload()

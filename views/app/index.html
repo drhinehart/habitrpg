@@ -250,7 +250,8 @@ do a find for the string after "→"
                     </div>
                     <ul>
                         {#each _user.profile.websites as :website}
-                        <li>{:website}</li> <!--TODO add delete -->
+                        <!-- would prefer if there were and index in #each, instead using data-website to search with indexOf -->
+                        <li>{:website} <a data-website="{:website}" x-bind="click:profileRemoveWebsite"><i class='icon-remove'></i></a></li>
                         {/}
                     </ul>
 

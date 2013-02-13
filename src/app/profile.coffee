@@ -9,3 +9,9 @@ module.exports.app = (appExports, model) ->
 
   appExports.profileEdit = (e, el) -> model.set '_profileEditing', true
   appExports.profileSave = (e, el) -> model.set '_profileEditing', false
+  appExports.profileRemoveWebsite = (e, el) ->
+    sites = user.get 'profile.websites'
+    i = sites.indexOf $(el).attr('data-website')
+    sites.splice(i,1)
+    user.set 'profile.websites', sites
+

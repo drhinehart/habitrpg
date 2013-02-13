@@ -205,7 +205,7 @@ do a find for the string after "→"
 
 
           </div>
-          <div class="tab-pane" id="profileEdit"><app:profile main="true" /></div>
+          <div class="tab-pane" id="profileEdit"><app:profile user="{_user}" main="true" /></div>
       </div>
 
     {/}
@@ -217,9 +217,9 @@ do a find for the string after "→"
 <profile:>
     <div class='row-fluid'>
         <div class='span6'>
-            {#if @main} <!-- own profile -->
-                <h3>Profile</h3>
-
+            {#if _profileEditing}
+                <a class='btn btn-success' x-bind="click:profileSave">Save</a>
+                <!-- TODO use photo-upload instead: https://groups.google.com/forum/?fromgroups=#!topic/derbyjs/xMmADvxBOak -->
                 <div class="control-group">
                     <label class="control-label" for="profileImageUrl">Photo Url</label>
                     <div class="controls">
@@ -255,10 +255,20 @@ do a find for the string after "→"
                     </ul>
 
                 </div>
-
+                <a class='btn btn-success' x-bind="click:profileSave">Save</a>
             {else}
-                <h3>{@user.profile.name}</h3>
-                <p>{@user.profile.blurb}</p>
+                <h3>
+                    {#if @user.profile.name}{@user.profile.name}
+                    {else}{username(@user.auth)}
+                    {/}
+                    {#if @main}<a class='btn pull-right' x-bind="click:profileEdit">Edit</a>{/}
+                </h3>
+                {#if @user.profile.imageUrl}
+                    <img src="{@user.profile.imageUrl}" />
+                {/}
+                {#if @user.profile.blurb}
+                    <p>{@user.profile.blurb}</p>
+                {/}
                 {#if @user.profile.websites}
                     <ul>
                         {#each @user.profile.websites as :website}
@@ -266,6 +276,7 @@ do a find for the string after "→"
                         {/}
                     </ul>
                 {/}
+
             {/}
         </div>
 

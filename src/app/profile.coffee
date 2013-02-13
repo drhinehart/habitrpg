@@ -6,3 +6,6 @@ module.exports.app = (appExports, model) ->
     return if /^(\s)*$/.test(newWebsite)
     user.unshift 'profile.websites', newWebsite
     model.set '_newProfileWebsite', ''
+
+  appExports.profileEdit = (e, el) -> model.set '_profileEditing', true
+  appExports.profileSave = (e, el) -> model.set '_profileEditing', false
